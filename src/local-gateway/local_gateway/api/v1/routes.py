@@ -18,9 +18,6 @@ async def completions(
 @router.post(
     "/openai/deployments/{deployment_name}/chat/completions"
 )
-@router.post(
-    "//openai/deployments/{deployment_name}/chat/completions"
-)
 async def chat_completions(
     request_data: dict,
     request: Request,

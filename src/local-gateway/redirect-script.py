@@ -20,3 +20,7 @@ def request(flow: http.HTTPFlow) -> None:
     #     flow.request.host = "localhost"
     #     flow.request.port = 23333
     # TODO: identify real request to remote with some identifier, e.g., header
+
+    # remove duplicated slashes, THOUGH don't know why...
+    if flow.request.path.startswith("//"):
+        flow.request.path = flow.request.path[1:]
