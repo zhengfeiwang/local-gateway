@@ -1,5 +1,6 @@
 fastapi
 mitmproxy
+openai
 python-dotenv
 requests
 uvicorn
