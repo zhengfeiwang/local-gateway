@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
+from local_gateway.consts import AOAI_ENDPOINT_HEADER_NAME
+
 
 router = APIRouter()
 
@@ -24,7 +26,7 @@ async def chat_completions(
 ):
     resp = {
         "api": "mocked",
-        "endpoint": request.headers.get("endpoint"),
+        "endpoint": request.headers.get(AOAI_ENDPOINT_HEADER_NAME),
         "deployment_name": deployment_name,
     }
     return JSONResponse(content=resp, status_code=200)

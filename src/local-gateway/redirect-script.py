@@ -1,0 +1,22 @@
+from mitmproxy import http
+
+from local_gateway.consts import AOAI_ENDPOINT_HEADER_NAME, GATEWAY_HOST, GATEWAY_PORT
+from local_gateway.utils.redirect import HostMatcher
+
+
+def request(flow: http.HTTPFlow) -> None:
+    # Azure OpenAI
+    # try to parse endpoint following AOAI pattern
+    # if so, set endpoint to header for gateway consumption
+    endpoint = HostMatcher.parse_endpoint_from_aoai(flow.request.host)
+    if endpoint is not None:
+        flow.request.host = GATEWAY_HOST
+        flow.request.port = GATEWAY_PORT
+        flow.request.headers[AOAI_ENDPOINT_HEADER_NAME] = endpoint
+
+    if flow.request.pretty_url.startswith("http://www.google.com"):
+        flow.request.host = "www.baidu.com"
+    # if flow.request.pretty_url.startswith("http://www.openai.com"):
+    #     flow.request.host = "localhost"
+    #     flow.request.port = 23333
+    # TODO: identify real request to remote with some identifier, e.g., header

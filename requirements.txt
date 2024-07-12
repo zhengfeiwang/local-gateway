@@ -2,3 +2,4 @@ fastapi
 mitmproxy
 python-dotenv
 requests
+uvicorn
