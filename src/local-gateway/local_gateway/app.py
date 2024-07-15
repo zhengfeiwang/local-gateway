@@ -24,13 +24,8 @@ class TraceMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         tracer = trace.get_tracer("local-gatewstary")
         with tracer.start_as_current_span(name="interception-request", end_on_exit=False) as span:
+            response = None
             try:
-                response = None
-                import time
-
-                with open("debug.log", "a") as f:
-                    f.write(f"{time.time()}\n")
-
                 self._span = span
                 body = await request.body()
                 body_data = body.decode("utf-8")
@@ -44,8 +39,6 @@ class TraceMiddleware(BaseHTTPMiddleware):
             finally:
                 if not response:
                     pass
-                with open("debug.log", "a") as f:
-                    f.write(f"{isinstance(response, StreamingResponse)}\n")
                 if isinstance(response, StreamingResponse):
                     response.body_iterator = self.stream_iterator(response.body_iterator)
                 else:
