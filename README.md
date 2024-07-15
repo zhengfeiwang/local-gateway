@@ -5,7 +5,7 @@
 [This page](https://slproweb.com/products/Win32OpenSSL.html) has various links, which can be very helpful.
 
 ```bash
-cd src/local-gateway/
+cd <path/to/repository>/src/local-gateway/
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem
 ```
 
