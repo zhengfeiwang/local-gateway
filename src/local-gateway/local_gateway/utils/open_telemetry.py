@@ -1,7 +1,11 @@
+import os
+
 from opentelemetry import trace
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor, SpanExporter, SpanExportResult
+
+from local_gateway.consts import TRACE_DESTINATION_DEFAULT_VALUE, TRACE_DESTINATION_ENVIRON
 
 
 def setup_tracer_provider():
@@ -27,7 +31,10 @@ class FileExporter(SpanExporter):
 
 
 def setup_exporter():
-    file_exporter = FileExporter("./spans.json")
+    trace_dest = os.getenv(TRACE_DESTINATION_ENVIRON)
+    if trace_dest is None:
+        trace_dest = TRACE_DESTINATION_DEFAULT_VALUE
+    file_exporter = FileExporter(trace_dest)
     span_processor = SimpleSpanProcessor(file_exporter)
     tracer_provider: TracerProvider = trace.get_tracer_provider()
     tracer_provider.add_span_processor(span_processor)
