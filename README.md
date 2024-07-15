@@ -25,8 +25,8 @@ cd <path/to/repository>/scripts/
 
 ### 3. Run your LLM application/script...
 
-# there is one prepared script in the repository
 ```bash
+# there is one prepared script in the repository
 cd <path/to/repository>/scripts/
 python .\aoai-basic.py <prompt>  # default prompt is "Wakanda Forever"
 ```
