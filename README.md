@@ -31,6 +31,26 @@ cd <path/to/repository>/scripts/
 python .\aoai-basic.py <prompt>  # default prompt is "Wakanda Forever"
 ```
 
+For your own application/script, you need to skip certificate verification, otherwise request will fail with `SSL: CERTIFICATE_VERIFY_FAILED` error.
+
+```python
+# OpenAI SDK
+from openai import DefaultHttpxClient
+
+client = AzureOpenAI(
+    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+    api_version="2023-12-01-preview",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+    http_client=DefaultHttpxClient(verify=False),  # this is the line you need to add
+)
+
+# requests.post
+response = requests.post(
+    ...
+    verify=False,  # this is the line you need to add
+)
+```
+
 ### 4. Check traces
 
 Traces by default are stored in the `<path/to/repository>/src/local-gateway/traces.json`.
