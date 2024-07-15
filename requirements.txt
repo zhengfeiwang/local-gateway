@@ -1,6 +1,9 @@
 fastapi
 mitmproxy
 openai
+opentelemetry-api
+opentelemetry-sdk
 python-dotenv
 requests
+starlette
 uvicorn
