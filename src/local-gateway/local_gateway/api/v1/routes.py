@@ -2,7 +2,8 @@ import requests
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 
-from local_gateway.consts import AOAI_ENDPOINT_HEADER_NAME
+from local_gateway.consts import AOAI_API_KEY_HEADER_NAME, AOAI_ENDPOINT_HEADER_NAME
+from local_gateway.utils.redirect import create_aoai_request_headers
 
 
 router = APIRouter()
@@ -31,10 +32,6 @@ async def chat_completions(
         f"https://{endpoint}.openai.azure.com/openai/deployments/{deployment_name}/"
         f"chat/completions?api-version={api_version}"
     )
-    headers = {
-        "content-type": "application/json",
-        "api-key": request.headers.get("api-key"),
-        "no-interception": "true",
-    }
+    headers = create_aoai_request_headers(api_key=request.headers.get(AOAI_API_KEY_HEADER_NAME))
     response = requests.post(url, json=request_data, headers=headers, verify=False)
     return JSONResponse(content=response.json(), status_code=200)
