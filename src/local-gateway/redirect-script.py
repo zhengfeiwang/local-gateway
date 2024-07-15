@@ -5,6 +5,9 @@ from local_gateway.utils.redirect import HostMatcher
 
 
 def request(flow: http.HTTPFlow) -> None:
+    if "no-interception" in flow.request.headers:
+        return
+
     # Azure OpenAI
     # try to parse endpoint following AOAI pattern
     # if so, set endpoint to header for gateway consumption
