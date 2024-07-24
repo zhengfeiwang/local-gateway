@@ -33,5 +33,5 @@ async def chat_completions(
         f"chat/completions?api-version={api_version}"
     )
     headers = create_aoai_request_headers(api_key=request.headers.get(AOAI_API_KEY_HEADER_NAME))
-    response = requests.post(url, json=request_data, headers=headers, verify=False)
+    response = requests.post(url, json=request_data, headers=headers)
     return JSONResponse(content=response.json(), status_code=200)
