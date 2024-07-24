@@ -30,7 +30,8 @@ class TraceMiddleware(BaseHTTPMiddleware):
                 body = await request.body()
                 body_data = body.decode("utf-8")
                 body_json = json.loads(body_data)
-                self._span.set_attribute("llm.model", body_json["model"])
+                # TODO: can retrieve from url maybe
+                self._span.set_attribute("llm.model", body_json.get("model", "unknown"))
                 self._span.set_attribute("llm.prompt", body_json["messages"][1]["content"])
                 response = await call_next(request)
                 return response
