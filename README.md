@@ -1,4 +1,4 @@
-## How to use local gateway (Windows)
+-## How to use local gateway (Windows)
 
 ### 1. Install OpenSSL and generate self-signed certificate
 
@@ -23,7 +23,17 @@ cd <path/to/repository>/scripts/
 .\interception-win.ps1 start
 ```
 
-### 3. Run your LLM application/script...
+### 3. Trust `mitmproxy` in `certifi`
+
+Add `mitmproxy` CA certificate to `certifi`, so that Python `requests` will trust `mitmproxy` and you don't need to update your code. You shall find `mitmproxy` CA certificate in `~/.mitmproxy/` directory with file name `mitmproxy-ca-cert.cer`.
+
+```python
+# locate `cacert.pem`
+import certifi
+print(certifi.where())
+```
+
+### 4. Run your LLM application/script...
 
 ```bash
 # there is one prepared script in the repository
@@ -51,7 +61,7 @@ response = requests.post(
 )
 ```
 
-### 4. Check traces
+### 5. Check traces
 
 Traces by default are stored in the `<path/to/repository>/src/local-gateway/traces.json`.
 
@@ -63,7 +73,7 @@ $env:GATEWAY_TRACE_DESTINATION='C:\Users\<your-alias>\traces.json'
 
 then invoke the gateway service (terminal #0).
 
-### 5. Stop proxy
+### 6. Stop proxy
 
 ```bash
 cd <path/to/repository>/scripts/
