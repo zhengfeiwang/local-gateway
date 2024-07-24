@@ -19,10 +19,6 @@ def request(flow: http.HTTPFlow) -> None:
 
     if flow.request.pretty_url.startswith("http://www.google.com"):
         flow.request.host = "www.baidu.com"
-    # if flow.request.pretty_url.startswith("http://www.openai.com"):
-    #     flow.request.host = "localhost"
-    #     flow.request.port = 23333
-    # TODO: identify real request to remote with some identifier, e.g., header
 
     # remove duplicated slashes, THOUGH don't know why...
     if flow.request.path.startswith("//"):
