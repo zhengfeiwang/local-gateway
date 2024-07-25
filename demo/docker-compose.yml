@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  prompt-flow-service-collector:
+    build:
+      context: ./pfs-collector
+      dockerfile: Dockerfile
+    image: pfs-collector-image:latest
+    container_name: otel-collector
+    ports:
+      - "8082:23333"
