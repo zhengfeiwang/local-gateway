@@ -1,4 +1,4 @@
--## How to use local gateway (Windows)
+## How to use local gateway (Windows)
 
 ### 1. Install OpenSSL and generate self-signed certificate
 
