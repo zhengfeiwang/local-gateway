@@ -1,9 +1,10 @@
 import os
 
 from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor, SpanExporter, SpanExportResult
+from opentelemetry.sdk.trace.export import BatchSpanProcessor, SimpleSpanProcessor, SpanExporter, SpanExportResult
 
 from local_gateway.consts import TRACE_DESTINATION_DEFAULT_VALUE, TRACE_DESTINATION_ENVIRON
 
@@ -40,6 +41,16 @@ def setup_exporter():
     tracer_provider.add_span_processor(span_processor)
 
 
+def setup_exporter2pfs():
+    exporter = OTLPSpanExporter(endpoint="http://127.0.0.1:23333/v1/traces")
+    tracer_provider: TracerProvider = trace.get_tracer_provider()
+    tracer_provider.add_span_processor(
+        BatchSpanProcessor(exporter, schedule_delay_millis=1000)
+    )
+
+
 def setup_otel():
     setup_tracer_provider()
     setup_exporter()
+    if os.getenv("LOCAL_GATEWAY_LEVERAGE_PF") == "true":
+        setup_exporter2pfs()
