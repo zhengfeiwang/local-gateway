@@ -33,6 +33,8 @@ class TraceMiddleware(BaseHTTPMiddleware):
                 # TODO: can retrieve from url maybe
                 self._span.set_attribute("llm.model", body_json.get("model", "unknown"))
                 self._span.set_attribute("llm.prompt", body_json["messages"][1]["content"])
+                # add inputs in attributes to leverage trace UI
+                self._span.set_attribute("inputs", body_json["messages"][1]["content"])
                 response = await call_next(request)
                 return response
             except Exception:
@@ -65,6 +67,8 @@ class TraceMiddleware(BaseHTTPMiddleware):
         self._span.set_attribute("usage.completion", response_body["usage"]["completion_tokens"])
         self._span.set_attribute("usage.total", response_body["usage"]["total_tokens"])
         self._span.set_attribute("llm.output", response_body["choices"][0]["message"]["content"])
+        # add output in attributes to leverage trace UI
+        self._span.set_attribute("output", response_body["choices"][0]["message"]["content"])
         self._span.end()
 
 
