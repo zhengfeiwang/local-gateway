@@ -68,7 +68,7 @@ cd <path/to/repository>/scripts/
 
 ## Scenario: use OpenAI SDK
 
-OpenAI Python SDK will honor the environment variable `OPENAI_BASE_URL` to request (see [implementation](https://github.com/openai/openai-python/blob/v1.37.1/src/openai/_client.py#L333) in version 1.37.1), so if you are using OpenAI Python SDK, it is recommended to leverage this feature - TBD.
+OpenAI Python SDK will honor the environment variable `OPENAI_BASE_URL` to request (see [implementation](https://github.com/openai/openai-python/blob/v1.37.1/src/openai/_client.py#L333) in version [1.37.1](https://pypi.org/project/openai/1.37.1/)), so if you are using OpenAI Python SDK, it is recommended to leverage this feature - TBD.
 
 Also, you can manually configure the client to skip certificate verification and everything will work like the previous scenario:
 
