@@ -44,27 +44,7 @@ print(certifi.where())
 ```bash
 # there is one prepared script in the repository
 cd <path/to/repository>/scripts/
-python .\aoai-basic.py <prompt>  # default prompt is "Wakanda Forever"
-```
-
-For your own application/script, you need to skip certificate verification, otherwise request will fail with `SSL: CERTIFICATE_VERIFY_FAILED` error.
-
-```python
-# OpenAI SDK
-from openai import DefaultHttpxClient
-
-client = AzureOpenAI(
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    api_version="2023-12-01-preview",
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    http_client=DefaultHttpxClient(verify=False),  # this is the line you need to add
-)
-
-# requests.post
-response = requests.post(
-    ...
-    verify=False,  # this is the line you need to add
-)
+python .\aoai-requests.py <prompt>  # default prompt is "Wakanda Forever"
 ```
 
 ### 5. Check traces
@@ -84,4 +64,21 @@ then invoke the gateway service (terminal #0).
 ```bash
 cd <path/to/repository>/scripts/
 .\interception-win.ps1 stop
+```
+
+## Scenario: use OpenAI SDK
+
+OpenAI Python SDK will honor the environment variable `OPENAI_BASE_URL` to request (see [implementation](https://github.com/openai/openai-python/blob/v1.37.1/src/openai/_client.py#L333) in version 1.37.1), so if you are using OpenAI Python SDK, it is recommended to leverage this feature - TBD.
+
+Also, you can manually configure the client to skip certificate verification and everything will work like the previous scenario:
+
+```python
+from openai import DefaultHttpxClient
+
+client = AzureOpenAI(
+    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+    api_version="2023-12-01-preview",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+    http_client=DefaultHttpxClient(verify=False),  # this is the line you need to add
+)
 ```
